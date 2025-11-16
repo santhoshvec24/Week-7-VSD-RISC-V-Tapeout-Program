@@ -3,31 +3,26 @@
 
 
 
-## Installing and setting up ORFS
 ```bash
-git clone --recursive https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts
-cd OpenROAD-flow-scripts
-sudo ./setup.sh
+cd ~/OpenROAD-flow-scripts/tools/OpenROAD
+rm -rf build
+mkdir build
+cd build
+cmake .. -DCMAKE_BUILD_TYPE=Release
+make -j$(nproc)
 ```
-photo
+Enable in VM settings:
 
-```bash
-./build_openroad.sh --local
-```
-photo
+- System → Acceleration
+    - VT-x / AMD-V
+    - Nested paging
 
-Verify Installation
+- Display →
+   -  3D Acceleration
+   -  128 MB video RAM
 
-```bash
-source ./env.sh
-yosys -help
-openroad -help
-cd flow
-make
-```
+This reduces UI freeze.
 
-photo
+<img width="1243" height="737" alt="image" src="https://github.com/user-attachments/assets/0abadedc-a0a1-46eb-9144-069ab660a85e" />
 
-```bash
-make gui_final
-```
+
