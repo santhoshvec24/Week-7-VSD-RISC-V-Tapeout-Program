@@ -341,5 +341,174 @@ make DESIGN_CONFIG=./designs/sky130hd/vsdbabysoc/config.mk gui_floorplan
 ```
 
 
+```bash
+make DESIGN_CONFIG=./designs/sky130hd/vsdbabysoc/config.mk gui_floorplan
+```
+
+placement
+
+```bash
+make DESIGN_CONFIG=./designs/sky130hd/vsdbabysoc/config.mk place
+```
+
+Visualize Placement
+
+```bash
+make DESIGN_CONFIG=./designs/sky130hd/vsdbabysoc/config.mk gui_place
+```
+
+
+Clock Tree Synthesis (CTS)
+Run CTS
+```bash
+make DESIGN_CONFIG=./designs/sky130hd/vsdbabysoc/config.mk cts
+```
+
+
+Visualize Clock Tree
+```bash
+make DESIGN_CONFIG=./designs/sky130hd/vsdbabysoc/config.mk gui_cts
+```
+
+
+Routing
+Run Routing
+
+```bash
+make DESIGN_CONFIG=./designs/sky130hd/vsdbabysoc/config.mk route
+```
+
+```bash
+cd OpenROAD-flow-scripts/flow/results/sky130hd/vsdbabysoc/base
+```
+
+
+Alternative manual generation:
+```bash
+make DESIGN_CONFIG=./designs/sky130hd/vsdbabysoc/config.mk spef
+```
+
+SPEF File Structure
+A typical SPEF file contains:
+
+```
+*SPEF "ieee 1481-1999"
+*DESIGN "vsdbabysoc"
+*DATE "16:13:34 Sunday November 16, 2025"
+*VENDOR "The OpenROAD Project"
+*PROGRAM "OpenROAD"
+*VERSION "v2.0-22706-g9c4e436fd2"
+*DESIGN_FLOW "NAME_SCOPE LOCAL" "PIN_CAP NONE"
+*DIVIDER /
+*DELIMITER :
+*BUS_DELIMITER []
+*T_UNIT 1 NS
+*C_UNIT 1 PF
+*R_UNIT 1 OHM
+*L_UNIT 1 HENRY
+
+*NAME_MAP
+*1 CLK
+*2 ENb_CP
+*3 ENb_VCO
+*4 net11
+*5 REF
+*6 RV_TO_DAC\[0\]
+*7 RV_TO_DAC\[1\]
+*8 RV_TO_DAC\[2\]
+*9 RV_TO_DAC\[3\]
+*10 RV_TO_DAC\[4\]
+*11 RV_TO_DAC\[5\]
+*12 RV_TO_DAC\[6\]
+*13 RV_TO_DAC\[7\]
+*14 RV_TO_DAC\[8\]
+*15 RV_TO_DAC\[9\]
+*16 VCO_IN
+*CAP
+1 *12834:D 0.000113333
+2 *12997:LO 0.000113333
+3 *12834:CLK *12834:D 0.000198052
+4 *12964:D *12834:D 0.000119335
+5 *6484:44 *12834:D 0.000200042
+*RES
+1 *12997:LO *12834:D 32.3611 
+*END
+
+*D_NET *6554 0.000834982
+*CONN
+*I *12837:D I *D sky130_fd_sc_hd__dfxtp_1
+*I *12998:LO O *D sky130_fd_sc_hd__conb_1
+*CAP
+1 *12837:D 0.000233494
+2 *12998:LO 0.000233494
+3 *12837:CLK *12837:D 0.000367993
+*RES
+1 *12998:LO *12837:D 34.8526 
+*END
+
+*D_NET *6555 0.000337553
+*CONN
+*I *12839:D I *D sky130_fd_sc_hd__dfxtp_1
+*I *12999:LO O *D sky130_fd_sc_hd__conb_1
+*CAP
+1 *12839:D 0.000118634
+2 *12999:LO 0.000118634
+3 *9521:A *12839:D 0.000100285
+*RES
+1 *12999:LO *12839:D 21.2773 
+*END
+```
+
+
+
+
+SPEF Impact on Timing
+
+Without SPEF (Pre-Route):
+```
+Net delay = 0.1 ns (estimated)
+Total path delay = 5.5 ns
+```
+
+With SPEF (Post-Route):
+```
+Net delay = 0.3 ns (extracted: R=25Ω, C=12fF)
+Total path delay = 5.7 ns
+```
+
+
+Verify SPEF Generation
+
+# Check if SPEF file exists
+```
+ls -lh results/sky130hd/vsdbabysoc/base/6_final.spef
+```
+
+# View SPEF statistics
+```
+head -n 50 results/sky130hd/vsdbabysoc/base/6_final.spef
+```
+
+ Expected Output
+
+```
+-rw-r--r-- 1 user user 2.3M Nov 16 10:45 6_final.spef
+
+```
+ Using SPEF for Post-Route STA
+
+# In OpenSTA or PrimeTime
+```
+read_spef results/sky130hd/vsdbabysoc/base/6_final.spef
+report_timing -path_delay max
+report_timing -path_delay min
+```
+
+
+
+
+
+
+
 
 
