@@ -126,3 +126,35 @@ then config.mk in vsdbabysoc which we created should contains the following:
 ```
 
 <img width="1302" height="759" alt="image" src="https://github.com/user-attachments/assets/1c0e02e1-15dc-45d4-afeb-90285ed305e7" />
+
+```bash
+gvim reports/sky130hd/vsdbabysoc/base/synth_stat.txt
+```
+
+<img width="1246" height="761" alt="image" src="https://github.com/user-attachments/assets/f8acbc8a-941b-4d2c-904e-13eddfc75cac" />
+
+Synthesis netlist
+
+```bash
+gvim results/sky130hd/vsdbabysoc/base/1_2_yosys.v
+```
+
+Synthesis Check
+
+```bash
+gvim reports/sky130hd/vsdbabysoc/base/synth_check.txt
+```
+
+run floorplan
+```bash
+make DESIGN_CONFIG=./designs/sky130hd/vsdbabysoc/config.mk floorplan
+```
+
+Floorplan Result (GUI)
+```bash
+make DESIGN_CONFIG=./designs/sky130hd/vsdbabysoc/config.mk gui_floorplan
+```
+
+
+
+
